@@ -1,72 +1,84 @@
 # Dependency Graph Visualizer
 
-## Project Summary
-**Category:** Developer Tools & Automation  
-**Difficulty:** Intermediate  
-**Suggested team split:** Manifest parser, graph algorithm, visualization, tests 
+A small developer tool for exploring package dependencies and identifying circular dependencies. The repository contains a Flask API, a plain HTML/CSS/JavaScript frontend, and Python modules for manifest parsing, graph construction, and cycle detection.
 
-## Description
-This project is a good fit for a small team that wants to build something real and usable in a short amount of time. It focuses on one clear feature, clean data flow, and a simple user experience that can be demoed without extra fluff. The goal is to turn a good idea into a working MVP with a solid backend, a basic interface, and a realistic set of edge cases.
+## Project layout
 
-## Scope
-Read a supplied package manifest, visualize dependencies, and detect cycles.
+- `app/` — Flask application, API routes, analysis service, and optional SQLite history support.
+- `backend/app/graph/` — dependency graph models, graph building, and cycle-detection algorithms.
+- `backend/app/parsers/` — package manifest parsing utilities.
+- `frontend/` — browser interface and JavaScript modules.
+- `backend/tests/` — tests for the graph and manifest-parser modules.
+- `tests/` — API and frontend-related tests.
+- `sample_data/package.json` — a small sample Node.js package manifest.
 
-## Core Features
-- Deliver the main user flow from start to finish.
-- Support the required data model and user interactions.
-- Handle validation, edge cases, and error states cleanly.
-- Include basic monitoring, feedback, or reporting where relevant.
-- Make the app easy to explain during a live demo.
+## Requirements
 
-## Deliverables
-- A working deployed application or API demo
-- A clear README with setup instructions and environment variables
-- A minimal database schema or data model definition
-- UI screens or API endpoints for the core MVP
-- A basic test strategy covering the happy path and one major failure path
-- A short demo script explaining the architecture, choices, and trade-offs
+- Python 3.10 or newer
+- pip
+- A modern web browser
 
-## Suggested Architecture
-- Frontend: simple dashboard, form-based interface, or lightweight visual layer
-- Backend: API or service layer for business logic and validation
-- Data layer: database, in-memory persistence, or structured file storage for MVP use
-- Optional extras: auth, async jobs, scheduling, WebSockets, caching, or notifications depending on the project
+## Setup on Windows (PowerShell)
 
-## Learning Outcomes
-Graph traversal, cycle detection
+Open a terminal in the repository root:
 
-## Recommended MVP Checklist
-1. Define the main user flow and success criteria.
-2. Build the data model and core backend logic.
-3. Connect the UI or client to the main application flow.
-4. Add key validation, security checks, and realistic error states.
-5. Test the happy path and at least one important edge case.
-6. Deploy the app and document the setup clearly.
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
-## Free Deployment Options
-Vercel or Netlify for the frontend; Render or Railway for the backend and job runner; GitHub Pages for docs.
+If PowerShell blocks activation, you can use the environment's Python directly instead:
 
-## Good Free Hosting Choices
-- Static frontend: Vercel, Netlify, or GitHub Pages
-- API/backend: Render, Railway, or Fly.io
-- Database/realtime services: Supabase, Neon, Firebase, or Cloudflare D1
-- Documentation/demo pages: GitHub Pages, Cloudflare Pages, or Vercel
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
 
-## Typical Tech Stack
-- Frontend: React, Next.js, plain HTML/JS, or similar lightweight UI tooling
-- Backend: Node.js, Python (Flask/FastAPI), or Java/Spring Boot
-- Database: Postgres, SQLite, Supabase, or a simple file-based store
-- Real-time layer: WebSockets, polling, or background workers if needed
+## Setup on macOS or Linux
 
-## Final Demo Expectations
-- Provide a working URL with sample or seeded data
-- Show one clear end-to-end flow from start to finish
-- Explain the most important technical decisions and trade-offs
-- Include screenshots, screen recordings, or a brief live walk-through
-- Highlight what was completed in the MVP and what would be next if the project continued
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
-## Next Improvements
-- Add authorization, auditing, or stronger validation
-- Improve test coverage and resilience
-- Add analytics, metrics, or observability
-- Expand functionality once the core MVP is stable
+Install the root `requirements.txt` for the Flask application and its dependencies. Avoid committing virtual environments; they are local to each machine.
+
+## Run the Flask API
+
+From the repository root, with the environment activated:
+
+```bash
+python run.py
+```
+
+The server defaults to `http://127.0.0.1:5000`.
+
+- Health check: `GET http://127.0.0.1:5000/health`
+- Manifest analysis: `POST http://127.0.0.1:5000/api/analyze` using multipart form data with a file field named `file`.
+
+The API accepts `package.json` and `package-lock.json` uploads, with a maximum upload size of 5 MiB. Invalid or unsupported uploads return structured JSON errors.
+
+**Integration note:** the Flask analysis service currently expects an analyzer to be supplied through application configuration. If it is not configured, `/api/analyze` returns `ANALYZER_NOT_CONFIGURED` (HTTP 503). The graph and parser modules under `backend/app/` are present, but the repository still needs to connect them to the Flask API for end-to-end analysis.
+
+## Run tests
+
+Run the backend graph and parser unit tests from the repository root:
+
+```bash
+python -m pytest backend/tests -v
+```
+
+The repository also contains API tests in `tests/test_api.py` and JavaScript test files in `tests/frontend/`. Run those separately with the appropriate project/test-runner setup; the JavaScript tests do not currently have a package manifest defining an npm test script.
+
+On Windows, use `py -m pytest backend/tests -v` if the `python` command is unavailable.
+
+## Example manifest
+
+The included `sample_data/package.json` declares `express` and `axios` as dependencies and `jest` as a development dependency. It can be used as sample input once the API analyzer integration is connected.
+
+## Current scope and next steps
+
+The repository has graph construction, manifest parsing, cycle-detection modules, a Flask upload endpoint, and a browser frontend. Important next steps are to connect the backend modules to the API analysis service, ensure the full API/frontend test suites run reliably, and document the actual end-to-end user flow once that integration is complete.
