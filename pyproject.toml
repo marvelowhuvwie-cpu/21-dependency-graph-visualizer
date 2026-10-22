@@ -5,5 +5,4 @@ description = "Build and analyze directed package dependency graphs"
 requires-python = ">=3.10"
 
 [tool.pytest.ini_options]
-pythonpath = ["backend"]
-testpaths = ["backend/tests"]
+testpaths = ["tests", "backend/tests"]
