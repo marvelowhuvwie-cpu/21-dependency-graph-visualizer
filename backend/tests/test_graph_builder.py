@@ -2,7 +2,7 @@
 
 import unittest
 
-from app.graph import DependencyGraph, build_dependency_graph
+from backend.app.graph import DependencyGraph, build_dependency_graph
 
 
 class GraphBuilderTests(unittest.TestCase):
