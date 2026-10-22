@@ -65,15 +65,15 @@ The API accepts `package.json` and `package-lock.json` uploads, with a maximum u
 
 ## Run tests
 
-Run the backend graph and parser unit tests from the repository root:
+Run all Python tests from the repository root:
 
 ```bash
-python -m pytest backend/tests -v
+python -m pytest -v
 ```
 
-The repository also contains API tests in `tests/test_api.py` and JavaScript test files in `tests/frontend/`. Run those separately with the appropriate project/test-runner setup; the JavaScript tests do not currently have a package manifest defining an npm test script.
+The pytest configuration discovers both `tests/` and `backend/tests/`. On Windows, use `py -m pytest -v` if the `python` command is unavailable.
 
-On Windows, use `py -m pytest backend/tests -v` if the `python` command is unavailable.
+The repository also contains JavaScript test files in `tests/frontend/`, but there is not yet a package manifest or configured npm test script for them.
 
 ## Example manifest
 
