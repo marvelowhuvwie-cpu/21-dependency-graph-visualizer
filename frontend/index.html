@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dependency Graph Visualizer</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <h1>Dependency Graph Visualizer</h1>
+            <p>Explore how your software packages connect.</p>
+        </div>
+        <span id="app-status">Ready</span>
+    </header>
+
+    <main class="dashboard">
+        <section class="panel upload-panel">
+            <h2>Upload Manifest</h2>
+            <p>Select a package.json file to generate your graph.</p>
+
+            <label class="upload-area" for="manifest-file">
+                <span class="upload-icon">↑</span>
+                <strong>Choose a manifest file</strong>
+                <span>JSON files only</span>
+                <input
+                    type="file"
+                    id="manifest-file"
+                    accept=".json,application/json"
+                >
+            </label>
+
+            <p id="file-name">No file selected</p>
+
+            <button id="upload-button" class="primary-button">
+                Generate Graph
+            </button>
+
+            <button id="sample-button">
+                Load Sample Graph
+            </button>
+
+            <p id="message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel graph-panel">
+            <div class="graph-heading">
+                <div>
+                    <h2>Dependency Graph</h2>
+                    <p>Click a node to explore its relationships.</p>
+                </div>
+
+                <div class="graph-controls">
+                    <button id="zoom-in" aria-label="Zoom in">+</button>
+                    <button id="zoom-out" aria-label="Zoom out">−</button>
+                    <button id="reset-graph">Reset</button>
+                </div>
+            </div>
+
+            <div class="statistics">
+                <div class="stat-card">
+                    <span>Packages</span>
+                    <strong id="node-count">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Connections</span>
+                    <strong id="edge-count">0</strong>
+                </div>
+            </div>
+
+            <label for="package-search">Search packages</label>
+            <input
+                type="search"
+                id="package-search"
+                placeholder="Search by package name..."
+            >
+
+            <div
+                id="graph"
+                role="img"
+                aria-label="Interactive dependency graph"
+            ></div>
+
+            <p class="hint">
+                Drag nodes to rearrange the graph. Use the mouse wheel to zoom.
+            </p>
+        </section>
+
+        <aside class="panel details-panel">
+            <h2>Package Details</h2>
+
+            <div id="dependency-details">
+                <p>Select a node to see its details.</p>
+            </div>
+        </aside>
+    </main>
+
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dependency_details.js"></script>
+    <script src="js/graph_visualization.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
