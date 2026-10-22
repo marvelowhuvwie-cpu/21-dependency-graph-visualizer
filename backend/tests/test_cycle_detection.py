@@ -2,7 +2,7 @@
 
 import unittest
 
-from app.graph import build_dependency_graph, find_cycles, has_cycle
+from backend.app.graph import build_dependency_graph, find_cycles, has_cycle
 
 
 class CycleDetectionTests(unittest.TestCase):
