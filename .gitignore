@@ -1,4 +1,18 @@
-node_modules
+# Python virtual environments
+.venv/
+.venv-*/
+venv/
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Environment variables
 .env
-__pycache__
+
+# Node dependencies
+node_modules/
+
+# OS files
 .DS_Store
