@@ -1,1 +1,2 @@
-pytest>=8.0,<9.0
+# Keep dependency versions centralized at the repository root.
+-r ../requirements.txt
