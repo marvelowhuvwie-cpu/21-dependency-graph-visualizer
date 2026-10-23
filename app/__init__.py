@@ -56,6 +56,10 @@ def create_app(test_config=None):
     def index():
         return send_from_directory(frontend_dir, "index.html")
 
+    @app.route("/<path:filename>")
+    def frontend_files(filename):
+        return send_from_directory(frontend_dir, filename)
+
     @app.errorhandler(413)
 
     def handle_request_too_large(_error):
