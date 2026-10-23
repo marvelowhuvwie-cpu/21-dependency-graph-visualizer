@@ -1,3 +1,4 @@
+from flask import Flask, jsonify, send_from_directory
 import os
 from pathlib import Path
 
@@ -12,6 +13,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
 
     project_root = Path(__file__).resolve().parent.parent
+    frontend_dir = project_root / "frontend"
     default_database = project_root / "instance" / "dependency_graph.db"
 
     app.config.from_mapping(
@@ -50,6 +52,9 @@ def create_app(test_config=None):
         init_db(app)
 
     app.register_blueprint(analysis_bp)
+    @app.route("/")
+    def index():
+        return send_from_directory(frontend_dir, "index.html")
 
     @app.errorhandler(413)
 
